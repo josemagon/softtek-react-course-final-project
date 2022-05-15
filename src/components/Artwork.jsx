@@ -1,11 +1,13 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { useParams } from "react-router-dom";
+import favoritesCtx from "../favoritesCtx";
 
 export default function Artwork(props){
     const {artworkID} = useParams();
     const [artwork, setArtwork] = useState({});
     const [imgSize, setImgSize] = useState("100%");
     const [isFavorite, setIsFavorite] = useState(false);
+    const {favorites, setFavorites} = useContext(favoritesCtx)
 
     useEffect(() => {
         if (artworkID != null){
@@ -14,9 +16,7 @@ export default function Artwork(props){
                 .then(data => {
                     setArtwork(data);
 
-                    let temp = JSON.parse(window.localStorage.getItem("favorites"));
-
-                    if (temp.filter(a => a == data.objectID).length > 0) setIsFavorite(true);
+                    if (favorites.filter(a => a == data.objectID).length > 0) setIsFavorite(true);
                 })
                 .catch(error => {
                     console.log(error);
@@ -35,16 +35,21 @@ export default function Artwork(props){
             ); 
     }
 
-    const addToFavorites = () => {
-        let temp = JSON.parse(window.localStorage.getItem("favorites"));
+    const toggleFavorites = () => {
         if (!isFavorite){
-            temp.push(artwork.objectID);
-            window.localStorage.setItem("favorites", JSON.stringify(temp));
+            setFavorites([...favorites, artwork.objectID])
             setIsFavorite(true);
         }else{
             //remove de favoritos
+            setFavorites(favorites.filter(f =>
+                f != artwork.objectID
+            ))
+
+            setIsFavorite(false);
         }
     }
+
+    if (!artwork) return <h2>Cargando datos...</h2>
 
     return(
         <main className="artwork-single">
@@ -57,7 +62,7 @@ export default function Artwork(props){
                 <p>{artwork.accessionYear}</p>
             </div>
             {artwork.primaryImage ? "" : <div className="decepcion">No se puede mostrar la imagen :(</div>}
-            <button onClick={addToFavorites}>{isFavorite ? "Remover de" : "Agregar a"} favoritos</button>
+            <button onClick={toggleFavorites}>{isFavorite ? "Remover de" : "Agregar a"} favoritos</button>
             <button onClick={() => {
                 if (imgSize == "100%"){
                     setImgSize("600px");

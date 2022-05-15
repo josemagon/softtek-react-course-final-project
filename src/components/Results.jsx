@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Result from './Result';
 
 export default function Results(props){
@@ -9,7 +8,8 @@ export default function Results(props){
         fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`)
         .then(res => res.json())
         .then(data => {
-            setArtwork(artwork => [...artwork, data]);  
+            if (data.primaryImage !== "")
+                setArtwork(artwork => [...artwork, data]);  
         })
         .catch(error => {
             console.log(error);
@@ -21,9 +21,9 @@ export default function Results(props){
         props.artworkIDs.forEach(id => {
             getArtWork(id);
         });
-    }, []);
+    }, [props.artworkIDs]);
 
-    return(
+    return props.artworkIDs.length > 0 && (
         <>
             <div id="results">
                 {artwork.map( a => {
