@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Link} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import favoritesCtx from '../favoritesCtx';
 
-export default function Topbar(props){
+export default function Topbar(){
     const { user, logout } = useAuth0();
+    const {favorites} = useContext(favoritesCtx)
 
     return(
         <nav className='Topbar'>
-            {window.history.length > 0 ? <button onClick={() => window.history.back()}>Volver</button> : null}
-            {props.favoritesQty > 0 ? <Link to={"/favorites"}>FAVORITOS <span className='cantidad-favoritos'>{props.favoritesQty}</span> </Link> : null}
-            <h1>BUSCARDOR DE ARTE</h1>
-            <h3>
-                Conectado como {user.email}
+            <Link to={"/favorites"}>
+                <p>FAVORITOS</p>
+                <p className='cantidad-favoritos'>{favorites.length}</p>
+            </Link>
+            <h1>
+                <Link to={"/"}>BUSCARDOR DE ARTE</Link>
+            </h1>
+            <div className='conectado-como'>
+                <p>Conectado como {user.email}</p> 
                 <button onClick={() => logout({ returnTo: window.location.origin })}>
                     salir
                 </button>
-            </h3>
+            </div>
         </nav>
     );
 }

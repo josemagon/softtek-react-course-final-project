@@ -20,11 +20,10 @@ export default function Search(props){
         fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${aQuery}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                if (data.total > 20)
-                    setArtwork(data.objectIDs.splice(0, 20))
+                if (data.total > 30)
+                    setArtwork(data.objectIDs.splice(0, 30))
                 else
-                    setArtwork(data.objectIDs);
+                    setArtwork(data);
 
                 setWorking(false);
             })
