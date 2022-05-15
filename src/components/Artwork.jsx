@@ -35,7 +35,7 @@ export default function Artwork(props){
             ); 
     }
 
-    const addToFavorites = () => {
+    const toggleFavorites = () => {
         let temp = JSON.parse(window.localStorage.getItem("favorites"));
         if (!isFavorite){
             temp.push(artwork.objectID);
@@ -45,6 +45,8 @@ export default function Artwork(props){
             //remove de favoritos
         }
     }
+
+    if (!artwork) return <h2>Cargando datos...</h2>
 
     return(
         <main className="artwork-single">
@@ -57,7 +59,7 @@ export default function Artwork(props){
                 <p>{artwork.accessionYear}</p>
             </div>
             {artwork.primaryImage ? "" : <div className="decepcion">No se puede mostrar la imagen :(</div>}
-            <button onClick={addToFavorites}>{isFavorite ? "Remover de" : "Agregar a"} favoritos</button>
+            <button onClick={toggleFavorites}>{isFavorite ? "Remover de" : "Agregar a"} favoritos</button>
             <button onClick={() => {
                 if (imgSize == "100%"){
                     setImgSize("600px");

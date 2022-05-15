@@ -21,9 +21,9 @@ export default function Results(props){
         props.artworkIDs.forEach(id => {
             getArtWork(id);
         });
-    }, []);
+    }, [props.artworkIDs]);
 
-    return(
+    return props.artworkIDs.length > 0 && (
         <>
             <div id="results">
                 {artwork.map( a => {
