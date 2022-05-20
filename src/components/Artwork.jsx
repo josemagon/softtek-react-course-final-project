@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { useParams } from "react-router-dom";
 import favoritesCtx from "../favoritesCtx";
+import AdditionalImages from './AdditionalImages'
 
 export default function Artwork(props){
     const {artworkID} = useParams();
@@ -23,17 +24,6 @@ export default function Artwork(props){
                 });
         }
     }, []);
-
-    const getExtraImages = (additionalImages) =>{
-        if (additionalImages.length > 0)
-            return(
-                <div className="extra-imgs">
-                    {additionalImages.map(ai => {
-                        return <img className="extra-img" src={ai} key={ai}/>
-                    })}
-                </div>
-            ); 
-    }
 
     const toggleFavorites = () => {
         if (!isFavorite){
@@ -73,7 +63,7 @@ export default function Artwork(props){
             <div className="content-single">
                 <img src={artwork.primaryImage} alt={artwork.title} style={{maxHeight: imgSize}}/>
             </div>
-            {artwork.additionalImages ? getExtraImages(artwork.additionalImages) : null}
+            <AdditionalImages images={artwork.additionalImages}/>
         </main>
     )
 
