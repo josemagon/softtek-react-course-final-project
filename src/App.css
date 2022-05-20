@@ -104,10 +104,6 @@ a{
   color: white;
 }
 
-.header-single{
-  /* height: 100%; */
-}
-
 .content-single{
   margin-top: 20px;
   text-align: center;
@@ -137,6 +133,29 @@ a{
   justify-content: center;
   align-items: center;
 }
+
+.login::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url("/public/assets/img/box-locked.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: blur(1px) opacity(0.8);
+}
+
+.login-content {
+  /* This will make it stack on top of the ::before */
+  position: relative;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.808);
+}
+
+  .login-content button{
+    font-size: 2rem;
+  }
 
 .cantidad-favoritos{
   width: 30px;

@@ -6,7 +6,9 @@ export default function Login(){
 
     return (
         <div className="login">
-            {isLoading ? <p>Loading...</p> : <button onClick={() => loginWithRedirect()}>Iniciar sesión</button>}
+            <div className="login-content">
+                {isLoading ? <p>Loading...</p> : <button onClick={() => loginWithRedirect()}>Iniciar sesión</button>}
+            </div>
         </div>
     )
 }
